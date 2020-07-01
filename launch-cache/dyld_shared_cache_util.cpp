@@ -869,7 +869,7 @@ int main (int argc, const char* argv[]) {
         char* last = strrchr(pathBuffer, '/');
         // The bundle is at a different location on device.  Its /usr/lib/dsc_extractor.bundle in the SDK
         // but /usr/local/lib/dsc_extractor.bundle on device.
-        strcpy(last+1, DSC_BUNDLE_REL_PATH);
+        strcpy(last+1, "dsc_extractor.bundle");
         void* handle = dlopen(pathBuffer, RTLD_LAZY);
         if ( handle == NULL ) {
             fprintf(stderr, "Error: dsc_extractor.bundle could not be loaded at %s\n", pathBuffer);

@@ -34,6 +34,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <cassert>
 #endif
 
 #include "dyld_cache_format.h"

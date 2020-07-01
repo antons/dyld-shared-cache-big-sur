@@ -34,11 +34,11 @@
 #include <assert.h>
 #include <mach-o/reloc.h>
 #include <mach-o/nlist.h>
-extern "C" {
-  #include <corecrypto/ccdigest.h>
-  #include <corecrypto/ccsha1.h>
-  #include <corecrypto/ccsha2.h>
-}
+//extern "C" {
+//  #include <corecrypto/ccdigest.h>
+//  #include <corecrypto/ccsha1.h>
+//  #include <corecrypto/ccsha2.h>
+//}
 
 #include "MachOFile.h"
 #include "MachOLoaded.h"
@@ -791,48 +791,48 @@ const uint8_t* MachOLoaded::trieWalk(Diagnostics& diag, const uint8_t* start, co
 void MachOLoaded::forEachCDHashOfCodeSignature(const void* codeSigStart, size_t codeSignLen,
                                                void (^callback)(const uint8_t cdHash[20])) const
 {
-    forEachCodeDirectoryBlob(codeSigStart, codeSignLen, ^(const void *cdBuffer) {
-        const CS_CodeDirectory* cd = (const CS_CodeDirectory*)cdBuffer;
-        uint32_t cdLength = htonl(cd->length);
-        uint8_t cdHash[20];
-        if ( cd->hashType == CS_HASHTYPE_SHA384 ) {
-            uint8_t digest[CCSHA384_OUTPUT_SIZE];
-            const struct ccdigest_info* di = ccsha384_di();
-            ccdigest_di_decl(di, tempBuf); // declares tempBuf array in stack
-            ccdigest_init(di, tempBuf);
-            ccdigest_update(di, tempBuf, cdLength, cd);
-            ccdigest_final(di, tempBuf, digest);
-            ccdigest_di_clear(di, tempBuf);
-            // cd-hash of sigs that use SHA384 is the first 20 bytes of the SHA384 of the code digest
-            memcpy(cdHash, digest, 20);
-            callback(cdHash);
-            return;
-        }
-        else if ( (cd->hashType == CS_HASHTYPE_SHA256) || (cd->hashType == CS_HASHTYPE_SHA256_TRUNCATED) ) {
-            uint8_t digest[CCSHA256_OUTPUT_SIZE];
-            const struct ccdigest_info* di = ccsha256_di();
-            ccdigest_di_decl(di, tempBuf); // declares tempBuf array in stack
-            ccdigest_init(di, tempBuf);
-            ccdigest_update(di, tempBuf, cdLength, cd);
-            ccdigest_final(di, tempBuf, digest);
-            ccdigest_di_clear(di, tempBuf);
-            // cd-hash of sigs that use SHA256 is the first 20 bytes of the SHA256 of the code digest
-            memcpy(cdHash, digest, 20);
-            callback(cdHash);
-            return;
-        }
-        else if ( cd->hashType == CS_HASHTYPE_SHA1 ) {
-            // compute hash directly into return buffer
-            const struct ccdigest_info* di = ccsha1_di();
-            ccdigest_di_decl(di, tempBuf); // declares tempBuf array in stack
-            ccdigest_init(di, tempBuf);
-            ccdigest_update(di, tempBuf, cdLength, cd);
-            ccdigest_final(di, tempBuf, cdHash);
-            ccdigest_di_clear(di, tempBuf);
-            callback(cdHash);
-            return;
-        }
-    });
+//    forEachCodeDirectoryBlob(codeSigStart, codeSignLen, ^(const void *cdBuffer) {
+//        const CS_CodeDirectory* cd = (const CS_CodeDirectory*)cdBuffer;
+//        uint32_t cdLength = htonl(cd->length);
+//        uint8_t cdHash[20];
+//        if ( cd->hashType == CS_HASHTYPE_SHA384 ) {
+//            uint8_t digest[CCSHA384_OUTPUT_SIZE];
+//            const struct ccdigest_info* di = ccsha384_di();
+//            ccdigest_di_decl(di, tempBuf); // declares tempBuf array in stack
+//            ccdigest_init(di, tempBuf);
+//            ccdigest_update(di, tempBuf, cdLength, cd);
+//            ccdigest_final(di, tempBuf, digest);
+//            ccdigest_di_clear(di, tempBuf);
+//            // cd-hash of sigs that use SHA384 is the first 20 bytes of the SHA384 of the code digest
+//            memcpy(cdHash, digest, 20);
+//            callback(cdHash);
+//            return;
+//        }
+//        else if ( (cd->hashType == CS_HASHTYPE_SHA256) || (cd->hashType == CS_HASHTYPE_SHA256_TRUNCATED) ) {
+//            uint8_t digest[CCSHA256_OUTPUT_SIZE];
+//            const struct ccdigest_info* di = ccsha256_di();
+//            ccdigest_di_decl(di, tempBuf); // declares tempBuf array in stack
+//            ccdigest_init(di, tempBuf);
+//            ccdigest_update(di, tempBuf, cdLength, cd);
+//            ccdigest_final(di, tempBuf, digest);
+//            ccdigest_di_clear(di, tempBuf);
+//            // cd-hash of sigs that use SHA256 is the first 20 bytes of the SHA256 of the code digest
+//            memcpy(cdHash, digest, 20);
+//            callback(cdHash);
+//            return;
+//        }
+//        else if ( cd->hashType == CS_HASHTYPE_SHA1 ) {
+//            // compute hash directly into return buffer
+//            const struct ccdigest_info* di = ccsha1_di();
+//            ccdigest_di_decl(di, tempBuf); // declares tempBuf array in stack
+//            ccdigest_init(di, tempBuf);
+//            ccdigest_update(di, tempBuf, cdLength, cd);
+//            ccdigest_final(di, tempBuf, cdHash);
+//            ccdigest_di_clear(di, tempBuf);
+//            callback(cdHash);
+//            return;
+//        }
+//    });
 }
 
 

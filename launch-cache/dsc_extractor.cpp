@@ -40,7 +40,7 @@
 #include "CodeSigningTypes.h"
 #include <CommonCrypto/CommonHMAC.h>
 #include <CommonCrypto/CommonDigest.h>
-#include <CommonCrypto/CommonDigestSPI.h>
+#include "CommonDigestSPI.h"
 
 #define NO_ULEB
 #include "Architectures.hpp"

@@ -30,12 +30,12 @@
 #include <mach-o/dyld_priv.h>
 #include <sys/stat.h>
 #include <sys/sysctl.h>
-#include <System/machine/cpu_capabilities.h>
+//#include <System/machine/cpu_capabilities.h>
 
-extern "C" {
-  #include <corecrypto/ccdigest.h>
-  #include <corecrypto/ccsha2.h>
-}
+//extern "C" {
+//  #include <corecrypto/ccdigest.h>
+//  #include <corecrypto/ccsha2.h>
+//}
 
 #include "Closure.h"
 #include "MachOFile.h"
@@ -1265,7 +1265,7 @@ static void putHexNibble(uint8_t value, char*& p)
         *p++ = 'A' + value - 10;
 }
 
-static void putHexByte(uint8_t value, char*& p)
+__unused static void putHexByte(uint8_t value, char*& p)
 {
     value &= 0xFF;
     putHexNibble(value >> 4,   p);
@@ -1277,29 +1277,29 @@ static bool hashBootAndFileInfo(const char* mainExecutablePath, char hashString[
     struct stat statbuf;
     if ( ::stat(mainExecutablePath, &statbuf) != 0)
         return false;
-#if !TARGET_OS_DRIVERKIT // Temp until core crypto is available
-    const struct ccdigest_info* di = ccsha256_di();
-    ccdigest_di_decl(di, hashTemp); // defines hashTemp array in stack
-    ccdigest_init(di, hashTemp);
-
-    // put boot time into hash
-    const uint64_t* bootTime = ((uint64_t*)_COMM_PAGE_BOOTTIME_USEC);
-    ccdigest_update(di, hashTemp, sizeof(uint64_t), bootTime);
-
-    // put inode of executable into hash
-    ccdigest_update(di, hashTemp, sizeof(statbuf.st_ino), &statbuf.st_ino);
-
-    // put mod-time of executable into hash
-    ccdigest_update(di, hashTemp, sizeof(statbuf.st_mtime), &statbuf.st_mtime);
-
-    // complete hash computation and append as hex string
-    uint8_t hashBits[32];
-    ccdigest_final(di, hashTemp, hashBits);
-    char* s = hashString;
-    for (size_t i=0; i < sizeof(hashBits); ++i)
-        putHexByte(hashBits[i], s);
-    *s = '\0';
-#endif
+//#if !TARGET_OS_DRIVERKIT // Temp until core crypto is available
+//    const struct ccdigest_info* di = ccsha256_di();
+//    ccdigest_di_decl(di, hashTemp); // defines hashTemp array in stack
+//    ccdigest_init(di, hashTemp);
+//
+//    // put boot time into hash
+//    const uint64_t* bootTime = ((uint64_t*)_COMM_PAGE_BOOTTIME_USEC);
+//    ccdigest_update(di, hashTemp, sizeof(uint64_t), bootTime);
+//
+//    // put inode of executable into hash
+//    ccdigest_update(di, hashTemp, sizeof(statbuf.st_ino), &statbuf.st_ino);
+//
+//    // put mod-time of executable into hash
+//    ccdigest_update(di, hashTemp, sizeof(statbuf.st_mtime), &statbuf.st_mtime);
+//
+//    // complete hash computation and append as hex string
+//    uint8_t hashBits[32];
+//    ccdigest_final(di, hashTemp, hashBits);
+//    char* s = hashString;
+//    for (size_t i=0; i < sizeof(hashBits); ++i)
+//        putHexByte(hashBits[i], s);
+//    *s = '\0';
+//#endif
     return true;
 }
 

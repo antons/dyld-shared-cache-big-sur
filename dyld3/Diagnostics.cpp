@@ -29,7 +29,7 @@
 #include <uuid/uuid.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <_simple.h>
+//#include <_simple.h>
 #include <unistd.h>
 #include <sys/uio.h>
 #include <sys/param.h>
@@ -45,7 +45,7 @@
 #include <mach-o/nlist.h>
 #include <mach-o/fat.h>
 #include <pthread.h>
-#include <libc_private.h>
+//#include <libc_private.h>
 
 #include "Diagnostics.h"
 
@@ -85,21 +85,21 @@ void Diagnostics::error(const char* format, ...)
 
 void Diagnostics::error(const char* format, va_list list)
 {
-    //FIXME: this should be assertNoError(), but we currently overwrite some errors
-    //assertNoError();
-    _buffer = _simple_salloc();
-    _simple_vsprintf(_buffer, format, list);
-
-#if BUILDING_CACHE_BUILDER
-    if ( !_verbose )
-        return;
-
-    if (_prefix.empty()) {
-        fprintf(stderr, "%s", _simple_string(_buffer));
-    } else {
-        fprintf(stderr, "[%s] %s", _prefix.c_str(), _simple_string(_buffer));
-    }
-#endif
+//    //FIXME: this should be assertNoError(), but we currently overwrite some errors
+//    //assertNoError();
+//    _buffer = _simple_salloc();
+//    _simple_vsprintf(_buffer, format, list);
+//
+//#if BUILDING_CACHE_BUILDER
+//    if ( !_verbose )
+//        return;
+//
+//    if (_prefix.empty()) {
+//        fprintf(stderr, "%s", _simple_string(_buffer));
+//    } else {
+//        fprintf(stderr, "[%s] %s", _prefix.c_str(), _simple_string(_buffer));
+//    }
+//#endif
 }
 
 bool Diagnostics::hasError() const
@@ -114,21 +114,22 @@ bool Diagnostics::noError() const
 
 void Diagnostics::clearError()
 {
-    if ( _buffer )
-        _simple_sfree(_buffer);
-    _buffer = nullptr;
+//    if ( _buffer )
+//        _simple_sfree(_buffer);
+//    _buffer = nullptr;
 }
 
 void Diagnostics::assertNoError() const
 {
-    if ( _buffer != nullptr )
-        abort_report_np("%s", _simple_string(_buffer));
+//    if ( _buffer != nullptr )
+//        abort_report_np("%s", _simple_string(_buffer));
 }
 
 #if !BUILDING_CACHE_BUILDER
 const char* Diagnostics::errorMessage() const
 {
-    return _simple_string(_buffer);
+//    return _simple_string(_buffer);
+    return "";
 }
 
 #else

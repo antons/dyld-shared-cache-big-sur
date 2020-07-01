@@ -412,6 +412,13 @@
 			remoteGlobalIDString = 37A0AD0A1C15FFF500731E50;
 			remoteInfo = update_dyld_shared_cache;
 		};
+		3A5D09F324AD261200C98857 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9ED4C8B0630A72300DF4E74 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F9D1001114D8D0BA00099D91;
+			remoteInfo = dsc_extractor;
+		};
 		C1033EA722611306004407FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F9ED4C8B0630A72300DF4E74 /* Project object */;
@@ -1529,6 +1536,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3A5D09F424AD261200C98857 /* PBXTargetDependency */,
 			);
 			name = dyld_shared_cache_util;
 			productName = dscutil;
@@ -2352,6 +2360,11 @@
 			isa = PBXTargetDependency;
 			target = 37A0AD0A1C15FFF500731E50 /* update_dyld_shared_cache */;
 			targetProxy = 37A0AD0E1C16000F00731E50 /* PBXContainerItemProxy */;
+		};
+		3A5D09F424AD261200C98857 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F9D1001114D8D0BA00099D91 /* dsc_extractor */;
+			targetProxy = 3A5D09F324AD261200C98857 /* PBXContainerItemProxy */;
 		};
 		C1033EA822611306004407FB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3435,6 +3448,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
@@ -3450,6 +3464,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
